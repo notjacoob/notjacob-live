@@ -1,0 +1,6 @@
+/private/*.key
+/private/*.crt
+/node_modules/
+/web/assets/img/*.png
+app.yaml
+package-lock.json
