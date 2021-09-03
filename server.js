@@ -1,14 +1,27 @@
 const express = require('express')
 const cors = require("cors")
+const helmet = require('helmet')
+const csurf = require('csurf')
+const morgan = require('morgan')
+const ratelimit = require('express-rate-limit')
 const https = require('https')
 const fs = require('fs')
 
 const app = express()
 
+const limiter = ratelimit({
+    windowMs: 300000,
+    max: 100
+})
+
+app.use(helmet())
+app.use(limiter)
+app.use(morgan('short'))
 app.use(express.static(__dirname + "/web/"))
 app.use(cors())
 
-app.get('/', function(req, res) {
+
+app.get('/', csurf({cookie:true}), function(req, res) {
     res.sendFile("/web/index.html", {root: __dirname})
 })
 
