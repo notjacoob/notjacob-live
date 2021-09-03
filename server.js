@@ -11,10 +11,12 @@ const app = express()
 
 const limiter = ratelimit({
     windowMs: 300000,
-    max: 100
+    max: 150
 })
 
-app.use(helmet())
+app.use(helmet({
+    contentSecurityPolicy: false
+}))
 app.use(limiter)
 app.use(morgan('short'))
 app.use(express.static(__dirname + "/web/"))
